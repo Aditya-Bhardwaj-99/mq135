@@ -24,7 +24,7 @@ require("dns").lookup(require("os").hostname(), function (err, add, fam) {
       let head = buff[0]
       buff.shift()
       console.log(buff)
-      if(buff.length>100){
+      if(buff.length>1000){
         buff.shift()
         let p = [data['Ammonia'],data['Benzene'],data['CO2'],data['Nitrox'],data['Alcohol']]
         buff.push(p.join(','))

@@ -6,6 +6,10 @@ from matplotlib.widgets import CheckButtons, Button
 from matplotlib.animation import FuncAnimation
 
 ds = pd.read_csv('./BufferData.csv')
+ds2 = pd.read_csv('./BillData.csv')
+ds3 = pd.DataFrame({"Bill":[ds["CO2"].mean()]})
+ds2 = pd.concat([ds2,ds3])
+ds2.to_csv('./BillData.csv',index=False)
 
 # figure, axis
 fig = plt.figure(num='abc', figsize=(10, 10))
@@ -17,13 +21,14 @@ fing2, = ax.plot(ds["Benzene"], 'g', label="Benzene", marker='s', ms='3')
 fing3, = ax.plot(ds["CO2"], 'b', label="CO2", marker='s', ms='3')
 fing4, = ax.plot(ds["Nitrox"], 'y', label="Nitrox", marker='s', ms='3')
 thumb, = ax.plot(ds["Alcohol"], 'k', label="Alcohol", marker='s', ms='3')
+cost, = ax.plot(ds2["Bill"].iloc[-1000:], 'c', label = "Bill", marker='s', ms='3')
 
-lines = [fing1, fing2, fing3, fing4, thumb]
+lines = [fing1, fing2, fing3, fing4, thumb, cost]
 
 
 plt.subplots_adjust(left=0.25, bottom=0.1, right=0.95, top=0.95)
 
-Fingers = ["Ammonia", "Benzene", "CO2", "Nitrox", "Alcohol"]
+Fingers = ["Ammonia", "Benzene", "CO2", "Nitrox", "Alcohol", "Bill"]
 # activated = [True, True, True, True, True]
 # Checkbox = plt.axes([0.03, 0.4, 0.15, 0.20])
 # chkbox = CheckButtons(Checkbox, Fingers, activated)
@@ -36,15 +41,23 @@ Fingers = ["Ammonia", "Benzene", "CO2", "Nitrox", "Alcohol"]
 
 def animate(i):
     ds = pd.read_csv('./BufferData.csv')
+    ds2 = pd.read_csv('./BillData.csv')
+    ds3 = pd.DataFrame({"Bill":[ds["CO2"].mean()]})
+    print(ds2)
+    ds2 = pd.concat([ds2,ds3])
+    print(ds2)
+    ds2.to_csv('./BillData.csv',index=False)
     ax.clear()
     fing1, = ax.plot(ds["Ammonia"], 'r', label="Ammonia", marker='s', ms='3')
     fing2, = ax.plot(ds["Benzene"], 'g', label="Benzene", marker='s', ms='3')
     fing3, = ax.plot(ds["CO2"], 'b', label="CO2", marker='s', ms='3')
     fing4, = ax.plot(ds["Nitrox"], 'y', label="Nitrox", marker='s', ms='3')
     thumb, = ax.plot(ds["Alcohol"], 'k', label="Alcohol", marker='s', ms='3')
+    cost, = ax.plot(ds2["Bill"].iloc[-1000:], 'c', label = "Bill", marker='s', ms='3')
+    plt.legend(loc="upper left")
     plt.subplots_adjust(left=0.25, bottom=0.1, right=0.95, top=0.95)
 
-    lines = [fing1, fing2, fing3, fing4, thumb]
+    lines = [fing1, fing2, fing3, fing4, thumb, cost]
 
     # chkbox.on_clicked(set_visible)
 
