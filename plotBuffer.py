@@ -10,7 +10,7 @@ ds2 = pd.read_csv('./BillData.csv')
 trees = pd.read_csv('./Trees.csv')
 bill_co2 = ds["CO2"].mean()
 ds3 = pd.DataFrame({"Bill":[bill_co2]})
-plant = bill_co2/1000
+plant = bill_co2/200
 newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
 ds2 = pd.concat([ds2,ds3])
 ds2.to_csv('./BillData.csv',index=False)
@@ -20,7 +20,12 @@ trees = pd.read_csv('./Trees.csv')
 fig = plt.figure(num='abc', figsize=(10, 10))
 ax = fig.add_subplot(1,1,1)
 # fig.set_size_inches(12,8)
+if trees["Trees"].sum() >= 2:
+    print_text="Over Polluting!! Please Plant trees"
+else:
+    print_text=""
 
+text3=fig.text(0.01,0.09,print_text,fontsize=14)
 text1=fig.text(0.01,0.01,"Avg Bill:- "+str(ds2["Bill"].mean()),fontsize=14)
 text2=fig.text(0.01,0.05,"Total Trees:- "+str(trees["Trees"].sum()),fontsize=14)
 fing1, = ax.plot(ds["Ammonia"], 'r', label="Ammonia", marker='s', ms='3')
@@ -52,7 +57,7 @@ def animate(i):
     trees = pd.read_csv('./Trees.csv')
     bill_co2 = ds["CO2"].mean()
     ds3 = pd.DataFrame({"Bill":[bill_co2]})
-    plant = bill_co2/1000
+    plant = bill_co2/200
     newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
     print(ds2)
     ds2 = pd.concat([ds2,ds3])
@@ -62,6 +67,12 @@ def animate(i):
     newTree.to_csv("./Trees.csv",index=False)
     trees = pd.read_csv('./Trees.csv')
     ax.clear()
+    if trees["Trees"].sum() >= 2:
+        print_text="Over Polluting!! Please Plant trees"
+    else:
+        print_text=""
+    
+    text3.set_text(print_text)
     text1.set_text("Bill:- "+str(ds2["Bill"].mean()))
     text2.set_text("Total Trees:- "+str(trees["Trees"].sum()))
     fing1, = ax.plot(ds["Ammonia"], 'r', label="Ammonia", marker='s', ms='3')
