@@ -7,7 +7,11 @@ from matplotlib.animation import FuncAnimation
 
 ds = pd.read_csv('./BufferData.csv')
 ds2 = pd.read_csv('./BillData.csv')
-ds3 = pd.DataFrame({"Bill":[ds["CO2"].mean()]})
+trees = pd.read_csv('./Trees.csv')
+bill_co2 = ds["CO2"].mean()
+ds3 = pd.DataFrame({"Bill":[bill_co2]})
+plant = bill_co2/1000
+newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
 ds2 = pd.concat([ds2,ds3])
 ds2.to_csv('./BillData.csv',index=False)
 trees = pd.read_csv('./Trees.csv')
@@ -17,7 +21,7 @@ fig = plt.figure(num='abc', figsize=(10, 10))
 ax = fig.add_subplot(1,1,1)
 # fig.set_size_inches(12,8)
 
-text1=fig.text(0.01,0.01,"Bill:- "+str(ds2["Bill"].mean()),fontsize=14)
+text1=fig.text(0.01,0.01,"Avg Bill:- "+str(ds2["Bill"].mean()),fontsize=14)
 text2=fig.text(0.01,0.05,"Total Trees:- "+str(trees["Trees"].sum()),fontsize=14)
 fing1, = ax.plot(ds["Ammonia"], 'r', label="Ammonia", marker='s', ms='3')
 fing2, = ax.plot(ds["Benzene"], 'g', label="Benzene", marker='s', ms='3')
@@ -45,11 +49,17 @@ Fingers = ["Ammonia", "Benzene", "CO2", "Nitrox", "Alcohol", "Bill"]
 def animate(i):
     ds = pd.read_csv('./BufferData.csv')
     ds2 = pd.read_csv('./BillData.csv')
-    ds3 = pd.DataFrame({"Bill":[ds["CO2"].mean()]})
+    trees = pd.read_csv('./Trees.csv')
+    bill_co2 = ds["CO2"].mean()
+    ds3 = pd.DataFrame({"Bill":[bill_co2]})
+    plant = bill_co2/1000
+    newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
     print(ds2)
     ds2 = pd.concat([ds2,ds3])
     print(ds2)
+    
     ds2.to_csv('./BillData.csv',index=False)
+    newTree.to_csv("./Trees.csv",index=False)
     trees = pd.read_csv('./Trees.csv')
     ax.clear()
     text1.set_text("Bill:- "+str(ds2["Bill"].mean()))
