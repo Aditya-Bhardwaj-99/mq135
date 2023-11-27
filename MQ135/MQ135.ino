@@ -15,9 +15,9 @@ String data= "";
 // Use WiFiClient class to create TCP connections
 using namespace websockets;
 WebsocketsClient client;
-const char* ssid = "Galaxy"; //Enter SSID
-const char* password = "uamp5888"; //Enter Password
-const char* websockets_server_host = "192.168.73.60"; //Enter server adress
+const char* ssid = "Airte"; //Enter SSID
+const char* password = "air22086"; //Enter Password
+const char* websockets_server_host = "192.168.1.12"; //Enter server adress
 const uint16_t websockets_server_port = 3000; // Enter server port
 
 const int MQ135_PIN = A0; // Define the pin with the MQ135

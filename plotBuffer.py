@@ -19,7 +19,7 @@ trees = pd.read_csv('./Trees.csv')
 if len(ds["CO2"])>0:
     bill_co2 = ds["CO2"].mean()
     ds3 = pd.DataFrame({"Bill":[bill_co2]})
-    plant = bill_co2/200
+    plant = bill_co2/100000
     newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
     ds2 = pd.concat([ds2,ds3])
     ds2.to_csv('./BillData.csv',index=False)
@@ -43,12 +43,13 @@ fing2, = ax.plot(ds["Benzene"], 'g', label="Benzene", marker='s', ms='3')
 fing3, = ax.plot(ds["CO2"], 'b', label="CO2", marker='s', ms='3')
 fing4, = ax.plot(ds["Nitrox"], 'y', label="Nitrox", marker='s', ms='3')
 thumb, = ax.plot(ds["Alcohol"], 'k', label="Alcohol", marker='s', ms='3')
-cost, = ax.plot(ds2["Bill"], 'c', label = "Bill", marker='s', ms='3')
+cost, = ax.plot(ds2["Bill"].iloc[-1000:], 'c', label = "Bill", marker='s', ms='3')
 
 lines = [fing1, fing2, fing3, fing4, thumb, cost]
 
 
 plt.subplots_adjust(left=0.25, bottom=0.1, right=0.95, top=0.95)
+ax.legend(loc="upper left")
 
 Fingers = ["Ammonia", "Benzene", "CO2", "Nitrox", "Alcohol", "Bill"]
 btn = Button(rax,"Clear All")
@@ -71,7 +72,7 @@ def animate(i):
     if len(ds["CO2"])>0:
         bill_co2 = ds["CO2"].mean()
         ds3 = pd.DataFrame({"Bill":[bill_co2]})
-        plant = bill_co2/200
+        plant = bill_co2/100000
         newTree = pd.concat([trees,pd.DataFrame({"Trees":[plant]})])
         ds2 = pd.concat([ds2,ds3])
         ds2.to_csv('./BillData.csv',index=False)
@@ -91,8 +92,8 @@ def animate(i):
     fing3, = ax.plot(ds["CO2"], 'b', label="CO2", marker='s', ms='3')
     fing4, = ax.plot(ds["Nitrox"], 'y', label="Nitrox", marker='s', ms='3')
     thumb, = ax.plot(ds["Alcohol"], 'k', label="Alcohol", marker='s', ms='3')
-    cost, = ax.plot(ds2["Bill"], 'c', label = "Bill", marker='s', ms='3')
-    plt.legend(loc="upper left")
+    cost, = ax.plot(ds2["Bill"].iloc[-1000:], 'c', label = "Bill", marker='s', ms='3')
+    ax.legend(loc="upper left")
     plt.subplots_adjust(left=0.25, bottom=0.1, right=0.95, top=0.95)
 
     lines = [fing1, fing2, fing3, fing4, thumb, cost]
@@ -102,6 +103,6 @@ def animate(i):
 
 
 
-ani = FuncAnimation(fig, animate, 50)
+ani = FuncAnimation(fig, animate,interval=600)
 # checkboxes
 plt.show()
